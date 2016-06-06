@@ -1,0 +1,11 @@
+git
+
+gcc-c++
+openssl
+
+firefox
+which
+Xvfb
+
+ansible
+pyOpenSSL

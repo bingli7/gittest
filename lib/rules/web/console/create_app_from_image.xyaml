@@ -1,0 +1,175 @@
+--- # set app param to create app from image
+create_app_from_image:
+  action: create_app_from_image_base_action
+  action: create_app_from_image_submit
+# we can combine any of sub action rules to make different options
+create_app_from_image_with_advanced_git_options:
+  action: create_app_from_image_base_action
+  action: create_app_from_image_show_advanced_param
+  action: create_app_from_image_set_git_options
+  action: create_app_from_image_submit
+create_app_from_image_change_bc_configchange:
+  action: create_app_from_image_base_action
+  action: create_app_from_image_show_advanced_param
+  action: create_app_from_image_change_bc_config_trigger
+  action: create_app_from_image_submit
+create_app_from_image_with_label_options:
+  action: create_app_from_image_base_action
+  action: create_app_from_image_show_advanced_param
+  action: create_app_from_image_add_labels
+  action: create_app_from_image_submit
+create_app_from_image_with_env_options:
+  action: create_app_from_image_base_action
+  action: create_app_from_image_show_advanced_param
+  action: create_app_from_image_add_bc_env_vars
+  action: create_app_from_image_add_dc_env_vars
+  action: create_app_from_image_submit
+
+create_app_from_image_base_action:
+  action: create_app_from_image_navigate
+  action: create_app_from_image_default_options
+
+create_app_without_route_action:
+  action: create_app_from_image_base_action
+  action: create_app_from_image_show_advanced_param
+  action: create_app_without_route
+  action: create_app_from_image_submit
+create_app_from_image_with_port:
+  action: create_app_from_image_base_action
+  action: create_app_from_image_show_advanced_param
+  action: check_port_in_list
+  action: create_app_from_image_submit
+check_port_on_create_page:
+  action: create_app_from_image_navigate
+  action: create_app_from_image_show_advanced_param
+  action: check_port_in_list
+# all sub single action  
+create_app_from_image_navigate:
+  url: /console/project/<project_name>/create/fromimage?imageName=<image_name>&imageTag=<image_tag>&namespace=<namespace>
+create_app_from_image_default_options:
+  elements:
+  - selector:
+      id: appname
+    op: send_keys <app_name>
+    type: input
+  - selector:
+      id: sourceUrl
+    op: send_keys <source_url>
+    type: input
+create_app_from_image_show_advanced_param:
+  element:
+    selector:
+      xpath: //a[contains(@class,'reveal-contents-link')] 
+    op: click
+    type: a
+create_app_from_image_set_git_options:
+  elements:
+  - selector:
+      id: gitref
+    op: send_keys <git_ref>
+    type: input
+  - selector:
+      id: contextdir
+    op: send_keys <context_dir>
+    type: input
+create_app_from_image_change_dc_image_trigger:
+  element:
+    selector:
+      text: New image is available
+    op: click
+create_app_from_image_change_dc_config_trigger:
+  element:
+    selector:
+      text: Deployment configuration changes
+    op: click
+create_app_from_image_add_dc_env_vars:
+  elements:
+  - selector:
+      xpath: //osc-key-values[@entries='deploymentConfig.envVars']//div[@ng-show='editable']//input[@name="key"]      
+    op: send_keys <dc_env_key>
+    type: input
+  - selector:
+      xpath: //osc-key-values[@entries='deploymentConfig.envVars']//input[@name="value"]
+    op: send_keys <dc_env_value>
+    type: input
+  - selector:
+      xpath: //osc-key-values[@entries='deploymentConfig.envVars']//a[@role="button"]
+    op: click
+    type: a
+create_app_from_image_add_bc_env_vars:
+  elements:
+  - selector:
+      xpath: //osc-key-values[@entries='buildConfig.envVars']//input[@name="key"]      
+    op: send_keys <bc_env_key>
+    type: input
+  - selector:
+      xpath: //osc-key-values[@entries='buildConfig.envVars']//input[@name="value"]
+    op: send_keys <bc_env_value>
+    type: input
+  - selector:
+      xpath: //osc-key-values[@entries='buildConfig.envVars']//a[@role="button"]
+    op: click
+    type: a
+create_app_from_image_change_bc_webhook_trigger:
+  element:
+    selector:
+      text: Configure a webhook build trigger
+    op: click
+create_app_from_image_change_bc_image_trigger:
+  element:
+    selector:
+      text: Automatically build a new image when the builder image changes
+    op: click       
+create_app_from_image_change_bc_config_trigger:
+  element:
+    selector:
+      text: Automatically build a new image when the build configuration changes
+    op: click
+create_app_from_image_change_routing_setting:
+  element:
+    selector:
+      text: Create a route to the application
+    op: click
+create_app_from_image_change_scaling_setting:
+  element:
+    selector:
+      name: replicas
+    op: send_keys <replica_num>
+    type: input
+create_app_from_image_add_labels:
+  elements:
+  - selector:
+      xpath: //label-editor//div[@ng-show='expand']//input[@name="key"]
+    op: send_keys <label_key>
+    type: input
+  - selector:
+      xpath: //label-editor//div[@ng-show='expand']//input[@name="value"]      
+    op: send_keys <label_value>
+    type: input
+  - selector:
+      xpath: //label-editor//div[@ng-show='expand']//a[@role="button"]
+    op: click
+    type: a
+create_app_from_image_submit:
+  element:
+    selector:
+      text: Create
+      class: btn-primary
+    op: click
+    type: button
+  element:
+    selector:
+      text: Application created. Continue to overview.
+  element:
+    selector:
+      text: Manage your app
+create_app_without_route:
+  elements:
+  - selector:
+      text: Create a route to the application
+    op: click
+check_port_in_list:
+  elements:
+  - selector:
+      xpath: //select[@id='routeTargetPort']/*[text()='<target_port>']
+    op: click

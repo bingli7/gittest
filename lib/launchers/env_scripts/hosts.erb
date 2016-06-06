@@ -1,0 +1,36 @@
+[OSEv3:children]
+masters
+nodes
+etcd
+lb
+nfs
+
+[OSEv3:vars]
+<%='openshift_master_embedded_dns=False' if dns.start_with?("embedded")%>
+ansible_ssh_user=root
+deployment_type=<%=deployment_type%>
+oreg_url=<%=image_pre%>
+openshift_docker_additional_registries=<%=image_pre.partition("/")[0]%>
+
+# Pre-release additional repo
+openshift_use_openshift_sdn=true
+osm_default_subdomain=<%=app_domain%>
+openshift_master_identity_providers=<%=identity_providers%>
+<%=ose3_vars.join("\n")%>
+
+# host group for masters
+[lb]
+<%=lb_host_lines.join("\n")%>
+[masters]
+<%=master_host_lines.join("\n")%>
+[etcd]
+<%=etcd_host_lines.join("\n")%>
+[nodes]
+<%=node_host_lines.join("\n")%>
+
+# this section only needed when openshift_hosted_registry_storage_kind=nfs
+# And it is only needed when HA regirsties are desired. HA registries
+# are configured, when multiple nodes with `openshift_registry_selector`
+# labels do exist
+[nfs]
+<%=nfs_host_lines.join("\n")%>

@@ -1,0 +1,40 @@
+expand_help_menu:
+  url: /console
+  element:
+    selector:
+      id: dropdownMenu1
+    op: click
+check_documentation_link_in_get_started:
+  action: goto_projects_page
+  element:
+    selector:
+      xpath: //a[contains(.,'documentation')][@href="https://docs.openshift.com/enterprise/latest/welcome/index.html"]
+check_documentation_link_in_console_help:
+  action: expand_help_menu
+  element:
+    selector:
+      xpath: //a[contains(.,'Documentation')][@href="https://docs.openshift.com/enterprise/latest/welcome/index.html"]
+check_documentation_link_in_about_page:
+  action: goto_about_page
+  elements:
+  - selector:
+      xpath: //a[contains(.,'Get Started with the CLI')][@href="https://docs.openshift.com/enterprise/latest/cli_reference/get_started_cli.html"]
+  - selector:
+      xpath: //a[contains(.,'CLI Reference')][@href="https://docs.openshift.com/enterprise/latest/cli_reference/overview.html"]
+  - selector:
+      xpath: //a[contains(.,'Basic CLI Operations')][@href="https://docs.openshift.com/enterprise/latest/cli_reference/basic_cli_operations.html"]
+check_documentation_link_in_next_step_page:
+  action: create_app_from_image
+  action: create_from_image_complete_info_on_next_page
+  elements:
+  - selector:
+      xpath: //a[contains(.,'CLI Reference')][@href="https://docs.openshift.com/enterprise/latest/cli_reference/overview.html"]
+  - selector:
+      xpath: //a[contains(.,'Basic CLI Operations')][@href="https://docs.openshift.com/enterprise/latest/cli_reference/basic_cli_operations.html"]
+  - selector:
+      xpath: //a[contains(.,'webhook trigger')][@href="https://docs.openshift.com/enterprise/latest/dev_guide/builds.html#webhook-triggers"]
+check_documentation_link_in_dc_page:
+  action: check_dc_loaded_completely
+  elements:
+  - selector:
+      xpath: //h3[contains(.,'Triggers')]//following::dt[contains(.,'Manual')]//a[@href="https://docs.openshift.com/enterprise/latest/cli_reference/basic_cli_operations.html#build-and-deployment-cli-operations"]

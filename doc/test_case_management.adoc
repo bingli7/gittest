@@ -1,0 +1,62 @@
+= Test Case Management
+:toc:
+:toc-placement: preamble
+
+== Overview
+
+CucuShift has a feature to use an external test case manager for cases to be run and reporting of status and test artifacts. This is achieved by the collaboration of the following classes:
+
+* TestCaseManagerFilter - this is a cucumber filter that would ask actual test case manager if a test case is to be run and inform test case manager for events like begin/end execution of scenario. It needs to be the last Cucumber filter, otherwise operation of the whole system will be compromised.
+* CucuFormatter - custom cucumber formatter that creates HTML log files and accumulates test artifacts (TBD); also accepts requests to produce scenario result html file for attaching to test case by the test case manager
+* Manager - it keeps reference to actual test case manager and CucuFormatter so they can talk to each other
+* env.rb - instantiates test case manager and sends some more signals to test case manager
+* config/cucumber.yml - can define cucumber profiles for using different test case managers
+* actual test case manager - should implement some methods and that's all. See an example manager - TCMSManager
+
+== TCMS Test Case Manager
+
+Implementation is the `TCMSManager` class in `lib/tcms/tcms_manager.rb`.
+
+=== Configuration
+
+You need to have preferably in private/config.yaml your default settings:
+
+[source,yaml]
+----
+services:
+  tcms:
+    plan: 1234
+    product: 1234
+    product_version: 4321
+    manager: 1111
+    build: 2124
+    timeout: 240 # operation timeout seconds
+    xmlrpc_url: 'https://tcms.example.com/xmlrpc/'
+    ca_path: config/ca # you can use ca_file: as well or none for insecure
+----
+
+`ca_path` is in the format of openssl ca_path directory. The path or file specified can be absolute or relative. When relative, it is searched for in the `PRIVATE` dir, user home dir or CucuShift::HOME dir.
+
+Only HTTP basic auth is supported by xmlrpc client. User/password pair can be supplied wither through `user` adn `password` configuration options, or using environment variables `TCMS_USER`, `TCMS_PASSWORD`. In absense of the above, user is asked for them on the console prompt. The latter method is most secure but not possible with jenkins and cron test runs.
+
+=== Usage
+
+Only thing you need to do configure is to set `TCMS_SPEC` environment variable. e.g.
+----
+export TCMS_SPEC=run:12345
+export TCMS_SPEC=cases:12345,23456
+export TCMS_SPEC=caseruns:34567,456778
+----
+
+Multiple test runs are also supported but don't make a lot of sense. When cases are specified, then they are only run but no status and logs attached (because we don't have caserun objects).
+
+To launch test you should just do:
+----
+$ cucumber -p tcms
+----
+
+This is a profile that enables the TCMS test case manager. To have a `devel` run so you are still able to debug issues easily, then run like this:
+
+----
+$ cucumber -p tcms -p _devel
+----

@@ -1,0 +1,62 @@
+#-------create route on web console-------
+open_create_route_page_from_overview_page:
+  action: goto_overview_page
+  elements:
+  - selector: 
+      xpath: //section[@id='service-<service_name>']//a[text()='Create Route']
+    op: click
+    timeout: 60
+open_create_route_page_from_service_page:
+  action: goto_one_service_page
+  elements:
+  - selector:
+      text: Create route
+    type: a
+    op: click
+click_create_route_on_routes_page:
+  elements:
+  - selector:
+      text: Create Route
+    type: a
+    op: click
+create_unsecured_route_from_service_or_overview_page: 
+  action: set_route_name
+  action: submit_create_route
+create_route_dont_specify_hostname_from_routes_page:
+  action: click_create_route_on_routes_page
+  action: choose_service_to_add_route
+  action: set_route_name
+  action: select_target_port
+  action: submit_create_route
+choose_service_to_add_route:
+  elements:
+  - selector:
+      xpath: //select[@id='service-select']/option[text()='<service_name>']
+    op: click
+set_route_name:
+  elements:
+  - selector:
+      id: route-name
+    op: clear 
+    type: input
+  - selector:
+      id: route-name
+    op: send_keys <route_name>
+    type: input
+set_hostname:
+  elements:
+  - selector:
+      id: host
+    op: send_keys <hostname>
+    type: input
+select_target_port:
+  elements:
+  - selector:
+      xpath: //select[@id="routeTargetPort"]/option[contains(.,'<target_port>')]
+    op: click
+submit_create_route:
+  elements:
+  - selector:
+      xpath: //button[text()='Create' and not(@disabled)]
+    type: button
+    op: click

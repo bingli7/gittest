@@ -1,0 +1,62 @@
+--- # set app param and label to create app
+create_app_from_template:
+  action: fromtemplate_navigate
+  action: 
+    ref: fromtemplate_param_form
+  action:
+    ref: fromtemplate_set_labels
+  element:
+    selector:
+      text: Create
+      class: btn-primary
+    op: click
+    type: button      
+  element:
+    selector:
+      text: Application created. Continue to overview.
+  element:
+    selector:
+      text: Manage your app
+fromtemplate_navigate:
+  url: /console/project/<project_name>/create/fromtemplate?name=<template_name>&namespace=<namespace>
+fromtemplate_param_form:
+  elements:
+  - selector:
+      id: param-0
+    op: send_keys <param_one>
+    type: input
+    optional: true
+  - selector:
+      id: param-1
+    op: send_keys <param_two>
+    type: input
+    optional: true
+  - selector:
+      id: param-2
+    op: send_keys <param_three>
+    type: input
+    optional: true
+  - selector:
+      id: param-3
+    op: send_keys <param_four>
+    type: input
+    optional: true
+  - selector:
+      id: param-4
+    op: send_keys <param_five>
+    type: input
+    optional: true
+fromtemplate_set_labels:
+  elements:
+  - selector:
+      name: key
+    op: send_keys <label_key>
+    type: input
+  - selector:
+      name: value
+    op: send_keys <label_value>
+    type: input
+  - selector:
+      xpath: //a[contains(text(),'Add') and contains(@role, 'button') and not(@disabled)]
+    op: click
+    type: a

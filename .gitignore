@@ -1,0 +1,7 @@
+*.swp
+*.swo
+*.swn
+/private*/
+/Gemfile.lock
+/tools/Gemfile.lock
+.idea/

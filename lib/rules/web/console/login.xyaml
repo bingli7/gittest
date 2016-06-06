@@ -1,0 +1,88 @@
+---
+access_overview_page_after_logout:
+  action: goto_overview_page
+  elements:
+  - selector:
+      id: inputUsername
+  - selector:
+      id: inputPassword
+
+login:
+  url: /console
+  elements:
+    - selector:
+        id: inputUsername
+      op: send_keys <username>
+      type: input
+    - selector:
+        id: inputPassword
+      op: send_keys <password>
+      type: input
+  scripts:
+  - command: return document.getElementsByName("csrf").length > 0
+    expect_result: true
+  cookies:
+  - name: csrf
+    expect_result: true
+  elements:
+    - selector:
+        text: Log In
+      op: click
+      type: button
+  action: verify_logged_in
+
+login_token:
+  #url: /console
+  #scripts:
+  #- command: return window.localStorage['LocalStorageUserStore.user'] = '<user>'
+  #  expect_result: <user>
+  #- command: return window.localStorage['LocalStorageUserStore.token'] = '<token>'
+  #  expect_result: <token>
+  #url: /console
+  url: /console/oauth#access_token=<token>&expires_in=86400&state=/&token_type=Bearer
+  element:
+    selector:
+      text: Continue
+      class: btn-primary
+    op: click
+    type: button
+    optional: true 
+  action: verify_logged_in
+
+verify_logged_in:
+  elements:
+  - selector:
+      text: OpenShift Web Console
+    visible: false
+  scripts:
+    - command: return window.localStorage['LocalStorageUserStore.token']
+      expect_result: true
+    - command: return window.localStorage['LocalStorageUserStore.user']
+      expect_result: true
+
+request_token_with_password:
+  url: /oauth/token/request
+  elements:
+    - selector:
+        id: inputUsername
+      op: send_keys <username>
+      type: input
+    - selector:
+        id: inputPassword
+      op: send_keys <password>
+      type: input
+  scripts:
+  - command: return document.getElementsByName("csrf").length > 0
+    expect_result: true
+  cookies:
+  - name: csrf
+    expect_result: true
+  elements:
+    - selector:
+        text: Log In
+      op: click
+      type: button
+  elements:
+    - selector:
+        text: Your API token is
+      timeout: 30

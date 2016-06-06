@@ -1,0 +1,20 @@
+# .config/cucumber.yml
+##YAML Template
+---
+<% now = Time.now.to_i %>
+<% default_args = " --color -r features -f pretty --expand --strict" %>
+<% tcms_args = " --color -r features -f pretty -f CucuShift::CucuFormatter -o :auto --expand --strict --order random" %>
+<% old = " --color -r features -f pretty -f CustomFormatter -o ~/workdir/log --expand --strict --tags ~@disabled --tags ~@orphaned" %>
+<% branch = `git branch | grep "*"  | sed "s/* //"`.strip %>
+<% common_libs = " -r features/step_definitions/ -r features/support/ "%>
+
+
+default: --profile devel
+debug: --profile _debug --profile devel
+devel: --profile _devel <%= default_args %>
+tcms: CUCUSHIFT_TEST_CASE_MANAGER=tcms <%= tcms_args %>
+
+_debug: CUCUSHIFT_LOG_LEVEL=debug
+_devel: CUCUSHIFT_DEBUG_AFTER_FAIL=true CUCUSHIFT_DEBUG_ATTACHER_TIMEOUT=true
+#
+# vim: set tabstop=2:shiftwidth=2:expandtab:

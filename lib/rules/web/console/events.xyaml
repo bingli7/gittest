@@ -1,0 +1,19 @@
+--- # check browse/events page
+check_events_page:
+  action: goto_events_page
+  element:
+    selector:
+      text: Events
+    selector:
+      text: Time
+    selector:
+      text: Kind
+    selector: 
+      text: Reason
+    selector:
+      xpath: //table/thead/tr/th[5]      
+    selector:
+      text: Pod
+goto_events_page:
+  url: /console/project/<project_name>/browse/events
+

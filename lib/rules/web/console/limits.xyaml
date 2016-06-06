@@ -1,0 +1,25 @@
+#---------limits related----------
+check_limits_on_dc_page:
+  action: goto_one_dc_page
+  action: check_limits_in_pod_template
+check_limits_on_rc_page:
+  action: goto_one_deployment_page
+  action: check_limits_in_pod_template
+check_limits_on_pod_page:
+  action: goto_one_pod_page
+  action: check_limits_in_pod_template
+check_limits_in_pod_template:
+  action: check_cpu_in_pod_template
+  action: check_memory_in_pod_template
+check_cpu_in_pod_template:
+  elements:
+  - selector:
+      xpath: //div[@class='pod-template']//div[contains(text(),'CPU:')]
+  - selector:
+      xpath: //div[@class='pod-template']//span[contains(text(),'<cpu_range>')]
+check_memory_in_pod_template:
+  elements: 
+  - selector:
+      xpath: //div[@class='pod-template']//div[contains(text(),'Memory:')]
+  - selector:
+      xpath: //div[@class='pod-template']//span[contains(text(),'<memory_range>')]

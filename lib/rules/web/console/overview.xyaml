@@ -1,0 +1,53 @@
+#---check project overview page
+check_project_overview_without_resource:
+  action: goto_overview_page
+  #check value in the select box 
+  elements:
+  - selector:
+      text: Get started with your project.
+  - selector:
+      class: dropdown-toggle
+    type: button
+    op: click
+goto_overview_page:
+  url: /console/project/<project_name>/overview
+check_pod_scaled_numbers:
+  elements:
+  - selector:
+      xpath: //overview-deployment//*[name()='tspan'][@class='pod-count donut-title-big-pf' and text()='<scaled_number>']
+scale_up_once:
+  elements:
+  - selector:
+      xpath: //div[@class='scaling-controls']//a[@title='Scale up']
+    op: click
+    type: a 
+scale_down_once:
+  elements:
+  - selector:
+      xpath: //div[@class='scaling-controls']//a[@title='Scale down']
+    op: click
+    type: a
+scale_down_to_zero:
+  elements:
+  - selector:
+      xpath: //div[@class='scaling-controls']//a[@title='Scale down']
+    op: click
+    type: a
+  - selector:
+      text: Scale Down
+    op: click
+    type: button
+cancel_scale_down_to_zero:
+  elements:
+  - selector:
+      xpath: //div[@class='scaling-controls']//a[@title='Scale down']
+    op: click
+    type: a
+  - selector:
+      text: Cancel
+    op: click
+    type: button
+check_scale_down_disabled:
+  elements:
+  - selector:
+      xpath: //a[@class='disabled' and @aria-disabled='true']/span[text()='Scale down']

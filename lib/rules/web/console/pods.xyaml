@@ -1,0 +1,44 @@
+#----check pod page-----
+check_log_tab:
+  elements:
+  - selector:
+      xpath: //uib-tab-heading[text()='Logs']
+    op: click
+  - selector:
+      xpath: //span[contains(text(),'<pod_status>')]
+check_log_context:
+  elements:
+  - selector:
+      xpath: //tbody[@id='logContent']//td[contains(text(),'<log_context>')]
+    timeout: 180
+check_pod_list_page:
+  action: goto_pods_page
+  element:
+    selector:
+      xpath: //table[descendant::th[text()="Name"]]
+check_pod_list_with_no_pod:
+  action: check_pod_list_page
+  element:
+    selector:
+      xpath: //em[contains(text(),'No pods to show')]
+goto_one_pod_page:
+  url: /console/project/<project_name>/browse/pods/<pod_name>
+  elements:
+  - selector:
+      xpath: //div[@ng-if="pod"]
+goto_pods_page:
+  url: /console/project/<project_name>/browse/pods
+open_in_new_window:
+  elements:
+  - selector:
+      text: Expand
+    type: a
+    op: click
+open_full_view_log:
+  action: open_in_new_window
+  action: check_log_context
+select_a_container:
+  elements:
+  - selector:
+      xpath: //select[@id='selectLogContainer']//option[contains(text(),'<container_name>')]
+    op: click

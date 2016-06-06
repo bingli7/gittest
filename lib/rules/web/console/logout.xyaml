@@ -1,0 +1,11 @@
+---
+logout:
+  url: /console/logout
+  elements:
+    - selector:
+        text: Log out
+  scripts:
+    - command: return window.localStorage['LocalStorageUserStore.token']
+      expect_result: ~
+    - command: return window.localStorage['LocalStorageUserStore.user']
+      expect_result: ~

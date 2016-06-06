@@ -1,0 +1,129 @@
+--- # delete resources related
+delete_resources_in_the_project:
+  action: delete_resources_pod
+  action: delete_resources_service
+  action: delete_resources_buildconfig
+  action: delete_resources_deploymentconfig
+  action: delete_resources_build
+  action: delete_resources_route
+  action: delete_resources_imagestream
+delete_resources_pod:
+  action: goto_one_pod_page
+  elements:
+  - selector:
+      text: Actions
+    type: button
+    op: click
+  - selector:
+      text: Delete
+    type: a
+    op: click
+  - selector:
+      text: Delete
+    type: button
+    op: click
+delete_resources_service:
+  action: goto_one_service_page
+  elements:
+  - selector:
+      text: Actions
+    type: button
+    op: click
+  - selector:
+      text: Delete
+    type: a
+    op: click
+  - selector:
+      text: Delete
+    type: button
+    op: click
+delete_resources_build:
+  url: /console/project/<project_name>/browse/builds/<build_name>
+  elements:
+  - selector:
+      text: Actions
+    type: button
+    op: click
+  - selector:
+      text: Delete
+    type: a
+    op: click
+  - selector:
+      text: Delete
+    type: button
+    op: click
+delete_resources_rc:
+  url: /console/project/<project_name>/browse/deployments/<deployment_name>/<rc_name>
+  elements:
+  - selector:
+      text: Actions
+    type: button
+    op: click
+  - selector:
+      text: Delete
+    type: a
+    op: click
+  - selector:
+      text: Delete
+    type: button
+    op: click 
+delete_resources_deploymentconfig:
+  url: /console/project/<project_name>/browse/deployments/<deployment_name>
+  elements:
+  - selector:
+      text: Actions
+    type: button
+    op: click
+  - selector:
+      text: Delete
+    type: a
+    op: click
+  - selector:
+      text: Delete
+    type: button
+    op: click
+delete_resources_buildconfig:
+  url: /console/project/<project_name>/browse/builds/<build_name>/<buildconfig_name>
+  elements:
+  - selector:
+      text: Actions
+    type: button
+    op: click
+  - selector:
+      text: Delete
+    type: a
+    op: click
+  - selector:
+      text: Delete
+    type: button
+    op: click
+delete_resources_route:
+  action: goto_one_route_page
+  elements:
+  - selector:
+      text: Actions
+    type: button
+    op: click
+  - selector:
+      text: Delete
+    type: a
+    op: click
+  - selector:
+      text: Delete
+    type: button
+    op: click
+delete_resources_imagestream:
+  action: goto_one_image_stream_page
+  elements:
+  - selector:
+      text: Actions
+    type: button
+    op: click
+  - selector:
+      text: Delete
+    type: a
+    op: click     
+  - selector:
+      text: Delete
+    type: button
+    op: click

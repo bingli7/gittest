@@ -1,0 +1,54 @@
+--- # elaborated new project actions to showcase what is possible
+new_project:
+  # non-optional action
+  action: new_project_navigate
+  # conditional action with both - `if` and `unless` condition
+  # examples start with two "#".
+  ##action:
+    ##ref: new_project_fake_action
+    ##if_element:
+      ##selector:
+        ##id: fake_id
+      ##type: a
+    ##unless_element:
+      ##selector:
+        ##id: name
+      ##type: input
+  action:
+    ref: new_project_form
+  element:
+    selector:
+      text: Select Image or Template
+    timeout: 60
+  ##element:
+    ##selector:
+      ##id: fake_id
+    ##optional: true
+new_project_navigate:
+  # url unconditionally directs browser at URL (relative or absolute)
+  url: /console/createProject
+new_project_form:
+  # elements is an array of elements (surprise?)
+  elements:
+  - selector:
+      id: name
+    op: send_keys <project_name>
+    type: input
+  - selector:
+      id: displayName
+    op: send_keys <display_name>
+    type: input
+  - selector:
+      id: description
+    op: set <description>
+    type: textarea
+  - selector:
+      text: Create
+      class: btn-primary
+    op: click
+    type: button
+##new_project_fake_action:
+  ##element:
+    ##selector:
+      ##id: another_fake_id
+    ##op: click
